@@ -1,0 +1,216 @@
+@charset "UTF-8"; /* customer.css - H-LINK Driver & Booking UI */
+
+:root {
+    --primary-blue: #0A66C2;
+    --accent-green: #34A853;
+    --bg-light: #F0F4F8;
+    --white: #FFFFFF;
+    --text-main: #1C1E21;
+    --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+body {
+    background-color: var(--bg-light);
+    margin: 0;
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    color: var(--text-main);
+}
+
+/* --- Navigation Bar --- */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--white);
+    padding: 12px 5%;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.logo {
+    font-size: 26px !important;
+    letter-spacing: 1px;
+    color: var(--primary-blue) !important; /* Đổi từ cam sang xanh */
+}
+
+.user-info {
+    font-weight: 600;
+    color: #444;
+}
+
+.logout-btn {
+    text-decoration: none;
+    color: #d73a49;
+    font-size: 14px;
+    font-weight: 600;
+    padding: 6px 12px;
+    border: 1px solid #d73a49;
+    border-radius: 20px;
+    transition: 0.3s;
+}
+
+.logout-btn:hover {
+    background: #d73a49;
+    color: white;
+}
+
+/* --- Container & Form --- */
+.booking-container {
+    max-width: 800px;
+    margin: 30px auto;
+    padding: 0 15px;
+}
+
+.booking-form {
+    background: var(--white);
+    padding: 30px;
+    border-radius: 16px;
+    box-shadow: var(--shadow);
+}
+
+.booking-form h2 {
+    color: var(--primary-blue);
+    text-align: center;
+    margin-bottom: 25px;
+    font-weight: 700;
+}
+
+/* --- SOS Button --- */
+#sos-btn {
+    background: #ff4d4d !important;
+    box-shadow: 0 4px 10px rgba(255, 77, 77, 0.3);
+    transition: 0.3s;
+}
+#sos-btn:hover {
+    transform: scale(1.05);
+    background: #e60000 !important;
+}
+
+/* --- Inputs & Selections --- */
+.input-group {
+    margin-bottom: 18px;
+    position: relative;
+}
+
+label {
+    display: block;
+    font-weight: 600;
+    font-size: 13px;
+    margin-bottom: 6px;
+    color: #555;
+}
+
+input[type="text"], input[type="tel"], select {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #e0e0e0;
+    border-radius: 10px;
+    font-size: 15px;
+    background: #fdfdfd;
+    transition: 0.3s;
+    box-sizing: border-box;
+}
+
+input:focus, select:focus {
+    outline: none;
+    border-color: var(--primary-blue);
+    box-shadow: 0 0 0 3px rgba(10, 102, 194, 0.1);
+}
+
+input[readonly] {
+    background: #f1f3f5;
+    color: var(--primary-blue);
+    font-weight: 600;
+}
+
+/* --- Row/Grid System --- */
+.row {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 15px;
+}
+.col { flex: 1; }
+
+/* --- Suggestions List (Địa điểm gợi ý) --- */
+.suggestions-list {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background: white;
+    border-radius: 0 0 10px 10px;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    z-index: 1001;
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.suggestions-list li {
+    padding: 12px 15px;
+    border-bottom: 1px solid #f0f0f0;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.suggestions-list li:hover {
+    background-color: #f0f7ff;
+    color: var(--primary-blue);
+}
+
+/* --- Map & Price --- */
+#map {
+    height: 350px;
+    width: 100%;
+    margin: 15px 0;
+    border-radius: 12px;
+    border: 1px solid #e0e0e0;
+    z-index: 1; /* Đảm bảo bản đồ không đè lên menu gợi ý */
+}
+
+#price-box {
+    color: var(--accent-green) !important; /* Chuyển tiền sang màu xanh lá cho tích cực */
+    background: #f0fff4;
+    padding: 15px;
+    border-radius: 10px;
+    border: 1px dashed var(--accent-green);
+}
+
+/* --- Confirm Button --- */
+#confirm-btn {
+    width: 100%;
+    display: block;
+    padding: 16px;
+    background-color: var(--primary-blue) !important;
+    color: var(--white) !important;
+    border: none;
+    border-radius: 12px;
+    font-size: 18px;
+    font-weight: 700;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+    margin-top: 10px;
+}
+
+#confirm-btn:hover {
+    background-color: #0856a3 !important;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(10, 102, 194, 0.3);
+}
+
+.leaflet-routing-container {
+    display: none !important;
+}
+
+#confirm-btn:disabled {
+    background-color: #bdc3c7 !important;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
