@@ -2,7 +2,9 @@ package dao;
 
 import model.User;
 import model.Booking;
+import model.Voucher;
 import util.DBContext;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -112,7 +114,9 @@ public class UserDAO extends DBContext {
                 b.setCreatedAt(rs.getTimestamp("created_at"));
                 list.add(b);
             }
-        } catch (Exception e) { e.printStackTrace(); }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return list;
     }
 
@@ -123,7 +127,9 @@ public class UserDAO extends DBContext {
             PreparedStatement st = connection.prepareStatement(sql);
             st.setInt(1, id);
             return st.executeUpdate() > 0;
-        } catch (Exception e) { e.printStackTrace(); }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return false;
     }
 
@@ -156,10 +162,16 @@ public class UserDAO extends DBContext {
             connection.commit(); // Hoàn tất
             return true;
         } catch (Exception e) {
-            try { connection.rollback(); } catch (Exception ex) {}
+            try {
+                connection.rollback();
+            } catch (Exception ex) {
+            }
             e.printStackTrace();
         } finally {
-            try { connection.setAutoCommit(true); } catch (Exception ex) {}
+            try {
+                connection.setAutoCommit(true);
+            } catch (Exception ex) {
+            }
         }
         return false;
     }
@@ -376,6 +388,44 @@ public class UserDAO extends DBContext {
             }
 
             return ps.executeUpdate() > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public Voucher getVoucherByCode(String code) {
+        String sql = "SELECT * FROM Vouchers WHERE voucher_code = ? AND is_active = 1 AND expiry_date >= CURDATE()";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setString(1, code);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                Voucher v = new Voucher();
+                v.setVoucherId(rs.getInt("voucher_id"));
+                v.setVoucherCode(rs.getString("voucher_code"));
+                v.setDiscountPercent(rs.getInt("discount_percent"));
+                v.setMaxDiscount(rs.getDouble("max_discount"));
+                v.setExpiryDate(rs.getDate("expiry_date"));
+                v.setIsActive(rs.getBoolean("is_active"));
+                return v;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public boolean resetPassword(String mssv, String phone, String newPass) {
+        String sql = "UPDATE Users SET password = ? WHERE student_id = ? AND phone = ?";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setString(1, newPass); // Tùng nên dùng mã hóa MD5/BCrypt nếu cần
+            ps.setString(2, mssv);
+            ps.setString(3, phone);
+
+            int rowsAffected = ps.executeUpdate();
+            return rowsAffected > 0; // Trả về true nếu có 1 dòng được cập nhật (thông tin đúng)
         } catch (Exception e) {
             e.printStackTrace();
         }

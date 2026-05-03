@@ -16,28 +16,49 @@ public class BookingController extends HttpServlet {
         response.setContentType("text/plain;charset=UTF-8");
 
         try {
-            // Trong file BookingController.java
-            int customerId = Integer.parseInt(request.getParameter("customerId"));
-            // Sửa đoạn này trong try-catch của BookingController
-            String serviceType = request.getParameter("serviceType");
+            // 1. Lấy customerId
+            String customerIdStr = request.getParameter("customerId");
+            if (customerIdStr == null) {
+                response.getWriter().print("error: Thiếu Customer ID");
+                return;
+            }
+            int customerId = Integer.parseInt(customerIdStr);
 
-// Kiểm tra an toàn trước khi dùng .contains()
+            // 2. Xác định loại dịch vụ (serviceId)
+            String serviceType = request.getParameter("serviceType");
             int serviceId = 1; // Mặc định là 1 (Xe ôm)
             if (serviceType != null && serviceType.contains("10000")) {
-                serviceId = 2; // Nếu là 10k thì là Ship đồ
+                serviceId = 2; // Ship đồ
             }
 
+            // 3. Lấy thông tin điểm đi/đến
             String pickup = request.getParameter("pickup");
             String dropoff = request.getParameter("dropoff");
 
-// Kiểm tra null cho distance để tránh lỗi ParseFloat
+            // 4. Xử lý khoảng cách
             String distParam = request.getParameter("distance");
-            float distance = (distParam != null) ? Float.parseFloat(distParam.replace(" km", "")) : 0;
+            float distance = (distParam != null) ? Float.parseFloat(distParam.replace(" km", "").trim()) : 0;
 
+            // --- PHẦN ĐỒNG BỘ VOUCHER ---
+            // Ưu tiên lấy 'totalPrice' (giá đã trừ voucher từ JS gửi về)
+            // Nếu không có 'totalPrice' thì mới dùng 'amount' cũ
+            String totalPriceParam = request.getParameter("totalPrice");
             String amountParam = request.getParameter("amount");
-            double total = (amountParam != null) ? Double.parseDouble(amountParam.replace(",", "")) : 0;
+
+            double total = 0;
+            if (totalPriceParam != null && !totalPriceParam.isEmpty()) {
+                total = Double.parseDouble(totalPriceParam);
+            } else if (amountParam != null && !amountParam.isEmpty()) {
+                total = Double.parseDouble(amountParam.replace(",", "").trim());
+            }
+
+            // Lấy thêm mã voucher (nếu Tùng muốn lưu vết vào DB sau này)
+            String appliedVoucher = request.getParameter("appliedVoucher");
+            // ----------------------------
+
+            // 5. Gọi DAO để tạo Booking
             UserDAO dao = new UserDAO();
-// Truyền ĐỦ các biến vào đây
+            // Đảm bảo hàm createBooking trong UserDAO nhận tham số total là giá cuối cùng
             boolean success = dao.createBooking(customerId, serviceId, pickup, dropoff, distance, total);
 
             if (success) {

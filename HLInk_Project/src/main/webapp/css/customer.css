@@ -214,3 +214,122 @@ input[readonly] {
     transform: none;
     box-shadow: none;
 }
+/* Container chứa toàn bộ phần Voucher */
+.voucher-section {
+    margin-top: 15px;
+    padding: 15px;
+    background: #f8fafc;
+    border-radius: 8px;
+    border: 1px dashed #cbd5e1;
+}
+
+.voucher-title {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 8px;
+    color: #1e293b;
+}
+
+.voucher-input-group {
+    display: flex;
+    gap: 10px;
+}
+
+.voucher-input {
+    flex: 1;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    text-transform: uppercase;
+}
+
+.btn-apply-voucher {
+    background: #0A66C2;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.btn-apply-voucher:hover {
+    background: #084d8f;
+}
+
+/* Thông báo lỗi/thành công */
+#voucherMsg {
+    font-size: 12px;
+    margin-top: 5px;
+    display: none;
+}
+
+/* Phần hiển thị giá tiền */
+.price-container {
+    margin-top: 20px;
+    padding-top: 15px;
+    border-top: 2px solid #e2e8f0;
+}
+
+.price-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5px;
+}
+
+.discount-text {
+    color: #ef4444;
+}
+
+.final-price-row {
+    display: flex;
+    justify-content: space-between;
+    font-weight: bold;
+    font-size: 1.2rem;
+    color: #166534;
+    margin-top: 10px;
+}
+
+/* Hiệu ứng gạch ngang giá cũ */
+.old-price {
+    text-decoration: line-through;
+    color: #94a3b8;
+    font-size: 0.9em;
+    margin-right: 10px;
+}
+
+/* Giá mới nổi bật hơn */
+.new-price {
+    color: #166534;
+    font-weight: bold;
+    font-size: 1.2em;
+}
+
+/* Hiệu ứng rung nhẹ khi áp dụng thành công */
+.price-update-animate {
+    animation: highlight 0.5s ease-in-out;
+}
+
+@keyframes highlight {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+/* Giá cũ bị gạch đi */
+.old-price-strikethrough {
+    text-decoration: line-through;
+    color: #94a3b8;
+    font-size: 0.85em;
+    margin-right: 8px;
+}
+
+/* Giá mới nổi bật */
+.new-price-highlight {
+    color: #166534;
+    font-weight: 800;
+    font-size: 1.1em;
+    background-color: #f0fdf4;
+    padding: 2px 4px;
+    border-radius: 4px;
+}
