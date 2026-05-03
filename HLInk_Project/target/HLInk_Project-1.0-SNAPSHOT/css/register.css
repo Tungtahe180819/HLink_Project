@@ -1,0 +1,193 @@
+@charset "UTF-8";
+
+:root {
+    --primary-blue: #0A66C2;
+    --accent-green: #34A853;
+    --bg-gray: #F4F7F9;
+    --white: #FFFFFF;
+    --text-dark: #2C3E50;
+    --error-red: #e74c3c;
+    --shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+body {
+    background-color: var(--bg-gray);
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+/* Container bọc ngoài */
+.reg-container {
+    background: var(--white);
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: var(--shadow);
+    width: 100%;
+    max-width: 450px;
+    text-align: center;
+}
+
+.reg-container h2 {
+    color: var(--primary-blue);
+    font-size: 28px;
+    margin-bottom: 5px;
+    letter-spacing: 2px;
+}
+
+.subtitle {
+    color: #666;
+    margin-bottom: 30px;
+    font-size: 14px;
+}
+
+/* Thông báo lỗi */
+.error {
+    color: var(--error-red);
+    background: #fdeaea;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 13px;
+    margin-bottom: 20px;
+}
+
+/* Form layout */
+.register-form {
+    text-align: left;
+}
+
+.register-form h2 {
+    font-size: 18px;
+    color: var(--text-dark);
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.input-group {
+    margin-bottom: 15px;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 14px;
+    box-sizing: border-box;
+    transition: border-color 0.3s;
+}
+
+.input-group input:focus {
+    outline: none;
+    border-color: var(--primary-blue);
+}
+
+/* --- PHẦN QUAN TRỌNG: ROLE SELECTOR --- */
+.role-selector {
+    margin: 25px 0;
+    padding: 15px;
+    background: #f8fafc;
+    border-radius: 10px;
+    border: 1px solid #edf2f7;
+}
+
+.selector-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: #4b5563;
+    margin-bottom: 12px;
+}
+
+.role-options {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.role-option {
+    display: flex;         /* Kích hoạt Flexbox */
+    align-items: flex-start; /* Đưa các phần tử con lên đỉnh đầu của dòng (nếu chữ có nhiều dòng) */
+    /* Hoặc dùng center nếu bạn muốn nó luôn ở giữa chiều cao của 1 dòng chữ */
+
+    justify-content: flex-start; /* Ép tất cả dồn về bên trái (đầu dòng) */
+    gap: 12px;             /* Khoảng cách giữa nút radio và chữ */
+    width: 100%;           /* Đảm bảo nó chiếm hết chiều ngang để không bị đẩy lên cạnh nhau */
+    cursor: pointer;
+    padding: 8px 0;
+}
+
+.role-option:hover {
+    transform: translateX(5px);
+}
+
+/* Nút Radio gốc */
+.role-option input[type="radio"] {
+    flex-shrink: 0;        /* Quan trọng: Ngăn nút radio bị bóp méo khi chữ quá dài */
+    margin-top: 3px;       /* Căn chỉnh thủ công một chút để nút khớp với dòng đầu tiên của chữ */
+    width: 18px;
+    height: 18px;
+}
+
+/* Phần chữ đi kèm */
+.role-text {
+    text-align: left;      /* Đảm bảo chữ luôn căn trái */
+}
+
+.role-name {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text-dark);
+    display: block;
+}
+
+/* Hiệu ứng khi được chọn */
+.role-option input[type="radio"]:checked + .role-text .role-name {
+    color: var(--primary-blue);
+}
+
+/* Nút đăng ký */
+.btn-register {
+    width: 100%;
+    padding: 14px;
+    background-color: var(--primary-blue);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.3s;
+    margin-top: 10px;
+}
+
+.btn-register:hover {
+    background-color: #0856a3;
+}
+
+/* Footer link */
+.footer-text {
+    margin-top: 20px;
+    font-size: 14px;
+    color: #666;
+}
+
+.footer-text a {
+    color: var(--primary-blue);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.footer-text a:hover {
+    text-decoration: underline;
+}
+
+/* Mobile Responsive */
+@media (max-width: 480px) {
+    .reg-container {
+        padding: 25px;
+        margin: 20px;
+    }
+}
