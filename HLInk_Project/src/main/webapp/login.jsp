@@ -70,6 +70,10 @@
             <input type="password" name="pass" placeholder="••••••••" required>
         </div>
 
+        <div class="forgot-pw-container">
+            <a href="forgot-password.jsp">Quên mật khẩu?</a>
+        </div>
+
         <button type="submit" class="btn-login">ĐĂNG NHẬP</button>
     </form>
 

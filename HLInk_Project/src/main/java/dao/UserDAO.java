@@ -416,18 +416,19 @@ public class UserDAO extends DBContext {
         return null;
     }
 
-    public boolean resetPassword(String mssv, String phone, String newPass) {
-        String sql = "UPDATE Users SET password = ? WHERE student_id = ? AND phone = ?";
+    public boolean resetPassword(String studentId, String phoneNumber, String newPass) {
+        // Tùng check lại xem trong DB cột mssv là 'student_id' hay 'studentId' nhé
+        String sql = "UPDATE Users SET password = ? WHERE student_id = ? AND phone_number = ?";
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
-            ps.setString(1, newPass); // Tùng nên dùng mã hóa MD5/BCrypt nếu cần
-            ps.setString(2, mssv);
-            ps.setString(3, phone);
+            ps.setString(1, newPass);
+            ps.setString(2, studentId);
+            ps.setString(3, phoneNumber);
 
             int rowsAffected = ps.executeUpdate();
-            return rowsAffected > 0; // Trả về true nếu có 1 dòng được cập nhật (thông tin đúng)
+            return rowsAffected > 0; // Trả về true nếu tìm thấy user khớp thông tin và update thành công
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println("Lỗi resetPassword: " + e.getMessage());
         }
         return false;
     }

@@ -132,3 +132,22 @@ input:focus {
     font-size: 14px;
     font-weight: 600;
 }
+
+.forgot-pw-container {
+    text-align: right;
+    margin-bottom: 15px;
+    margin-top: -10px; /* Kéo sát lên ô mật khẩu */
+}
+
+.forgot-pw-container a {
+    font-size: 13px;
+    color: #0A66C2;
+    text-decoration: none;
+    font-weight: 500;
+    transition: 0.3s;
+}
+
+.forgot-pw-container a:hover {
+    color: #084d91;
+    text-decoration: underline;
+}
