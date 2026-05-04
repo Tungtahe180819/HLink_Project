@@ -201,34 +201,64 @@
 
     // --- 5. XÁC NHẬN ĐẶT CHUYẾN ---
     function confirmOrder() {
-        const dist = parseFloat(document.getElementById('distance').value);
-        if (isNaN(dist) || dist === 0) return alert("Vui lòng chọn lộ trình!");
+        // 1. Lấy khoảng cách và kiểm tra
+        const distInput = document.getElementById('distance').value;
+        const dist = parseFloat(distInput);
 
+        if (isNaN(dist) || dist <= 0) {
+            return alert("Vui lòng chọn lộ trình trên bản đồ trước!");
+        }
+
+        // 2. Vô hiệu hóa nút để tránh bấm nhiều lần
         const btn = document.getElementById('confirm-btn');
         btn.disabled = true;
         btn.innerText = "⏳ ĐANG TÌM TÀI XẾ...";
 
+        // 3. XỬ LÝ GIÁ TIỀN: Làm tròn thành số nguyên để tránh lỗi Database (Out of range / Truncation)
+        // Nếu finalPriceToSubmit chưa có giá trị, tính toán lại từ giá gốc
+        let priceToSend = Math.round(finalPriceToSubmit);
+        if (priceToSend <= 0) {
+            const unitPrice = parseFloat(document.getElementById('service-type').value);
+            priceToSend = Math.round(dist * unitPrice);
+        }
+
+        // 4. Gửi dữ liệu về Servlet 'book'
         fetch('book', {
             method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
             body: new URLSearchParams({
                 'customerId': document.getElementById('customer-id').value,
                 'pickup': document.getElementById('pickup-input').value,
                 'dropoff': document.getElementById('dropoff-input').value,
-                'distance': dist,
-                'totalPrice': finalPriceToSubmit,
+                'distance': dist.toFixed(2), // Lấy 2 chữ số thập phân cho quãng đường
+                'totalPrice': priceToSend,    // Gửi số nguyên đã làm tròn
                 'appliedVoucher': appliedVoucherCode,
-                'serviceType': document.getElementById('service-type').value
+                'serviceType': document.getElementById('service-type').options[document.getElementById('service-type').selectedIndex].text
             })
-        }).then(res => res.text()).then(data => {
-            if (data.includes("success")) {
-                alert("Đặt chuyến thành công!");
-                // startChecking(data.split(":")[1]);
-            } else {
-                alert("Lỗi: " + data);
+        })
+            .then(res => res.text())
+            .then(data => {
+                // Log để Tùng dễ debug trên Console F12
+                console.log("Server Response:", data);
+
+                if (data.trim().includes("success")) {
+                    alert("✅ Đặt chuyến thành công! Hệ thống đang tìm tài xế cho bạn.");
+                    // Tùng có thể chuyển hướng trang hoặc reset form ở đây
+                    // window.location.href = "history.jsp";
+                } else {
+                    alert("❌ Lỗi đặt chuyến: " + data);
+                    btn.disabled = false;
+                    btn.innerText = "XÁC NHẬN ĐẶT CHUYẾN";
+                }
+            })
+            .catch(err => {
+                console.error("Fetch Error:", err);
+                alert("❗ Lỗi kết nối hệ thống. Vui lòng thử lại!");
                 btn.disabled = false;
                 btn.innerText = "XÁC NHẬN ĐẶT CHUYẾN";
-            }
-        });
+            });
     }
 
     // --- AUTOCOMPLETE (Giữ nguyên logic của Tùng) ---
